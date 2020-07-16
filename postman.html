@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Postman</title>
+    <link href="prism.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style>
+        .size {
+            width: 37.1px;
+            height: 37.1px;
+        }
+
+        ::-webkit-scrollbar {
+            background: white;
+            width: 12px;
+        }
+
+        ::-webkit-scrollbar-corner {
+            background-color: #1b1e20;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background-color: #656d72;
+            border-radius: 24px;
+        }
+
+        #option {
+            display: none;
+        }
+
+        div.code-toolbar>.toolbar a,
+        div.code-toolbar>.toolbar button,
+        div.code-toolbar>.toolbar span {
+            color: #bbb;
+            font-size: .8em;
+            padding: 0 .5em;
+            background: #f5f2f0;
+            background: rgba(224, 224, 224, 0.2);
+            box-shadow: 0 2px 0 0 rgba(0, 0, 0, 0.2);
+            border-radius: .5em;
+        }
+
+        .language-javascript{
+            max-height: 500px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Postman</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" onclick="location.reload()" style="cursor: pointer;">Home <span
+                            class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" style="cursor: pointer;">About<span class="sr-only"></span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" style="cursor: pointer;">Contact<span class="sr-only"></span></a>
+                </li>
+            </ul>
+            <form class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1 class="my-3">Welcome to Postmaster</h1>
+        <div class="my-3">
+            <hr>
+            <form id="libraryForm my-4">
+                <div class="form-group row">
+                    <label for="bookName" class="col-sm-2 col-form-label">WEBSITE URL</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="url" placeholder="URL" value="https://">
+                    </div>
+                </div>
+
+                <fieldset class="form-group">
+                    <div class="row">
+                        <legend class="col-form-label col-sm-2 pt-0">Type</legend>
+                        <div class="col-sm-10">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="get" id="get" value="GET" checked>
+                                <label class="form-check-label" for="get">
+                                    GET
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="get" id="post" value="POST">
+                                <label class="form-check-label" for="post">
+                                    POST
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+        </div>
+        <fieldset class="form-group" id="option">
+            <div class="row">
+                <legend class="col-form-label col-sm-2 pt-0">Content type</legend>
+                <div class="col-sm-10">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="type" id="json" value="json" checked>
+                        <label class="form-check-label" for="json">
+                            JSON
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="type" id="custom" value="custom">
+                        <label class="form-check-label" for="custom">
+                            Custom parameters
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+        </fieldset>
+
+        <!-- Parameters this will hide on json selected -->
+        <div id="parametersBox">
+            <div class="form-row">
+                <label for="url" class="col-sm-2 col-form-label">Parameter 1</label>
+                <div class="col-md-4">
+                    <input type="text" id="parameterKey1" class="form-control" placeholder="Enter Parameter 1 key"
+                        autofocus>
+                </div>
+                <div class="col-md-4">
+                    <input type="text" id="parameterValue1" class="form-control" placeholder="Enter Parameter 1 value">
+                </div>
+                <button class="btn btn-primary" id="addparam">+</button>
+            </div>
+        </div>
+
+        <div id="params">
+
+        </div>
+
+        <div id="requestJsonBox" class="form-group" style="display: none;;">
+            <label for="requestJsonBox" class="my-3 col-form-label">Enter request json here:</label>
+            <textarea id="requestJsonText" rows="4" cols="4" class="form-control" value="jsonBox"
+                placeholder="Enter request json here"></textarea>
+        </div>
+
+        <!-- Submit button -->
+        <button class="btn btn-success" id="submit">Submit</button>
+
+        <div id="requestJsonBox" class="form-group">
+            <!-- <label for="responseJsonBox" class="my-3 col-form-label">Response</label> -->
+            <!-- <textarea id="responseJsonText" rows="10" class="form-control my-3"
+                value="responsejsonBox">Your response will appear here.</textarea> -->
+            <pre class="language-javascript"><code id="responseJsonText" class="language-javascript">Your response will appear here.</code></pre>
+        </div>
+
+    </div>
+    <script src="postman.js"></script>
+    <script src="prism.js"></script>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+</body>
+</html>
