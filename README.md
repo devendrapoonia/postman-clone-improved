@@ -1,5 +1,5 @@
 # Postman-Clone-improved
-This is a project that help you in GET and POST requests.
+This project help you in GET and POST requests.
 
 To use this project you need a server.
 
